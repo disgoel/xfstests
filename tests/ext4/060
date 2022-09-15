@@ -1,0 +1,32 @@
+#! /bin/bash
+# SPDX-License-Identifier: GPL-2.0
+# Copyright (c) 2022 IBM.  All Rights Reserved.
+#
+# FS QA Test 060
+#
+#
+. ./common/preamble
+_begin_fstest auto quick
+
+# Override the default cleanup function.
+
+# Import common functions.
+ . ./common/filter
+
+# real QA test starts here
+_supported_fs ext4
+_require_test
+_require_scratch
+
+echo "Silence is golden"
+
+testdir=$SCRATCH_MNT
+
+_scratch_mkfs_ext4 >/dev/null 2>&1
+_scratch_mount >> $seqres.full 2>&1
+dd if=/dev/zero of=$testdir/a bs=512 count=1  >> $seqres.full 2>&1
+sleep 0.5
+_scratch_unmount >> $seqres.full 2>&1
+
+status=0
+exit
